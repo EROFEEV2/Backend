@@ -1,16 +1,32 @@
-SELECT title, year
-FROM books
-ORDER BY year ASC;
-
+-- Ревью: запрос 1
 SELECT * FROM books
-WHERE description ILIKE'%книга%';
+WHERE description ILIKE '%алгоритм%';
 
-SELECT * FROM books
-WHERE year BETWEEN 2005 AND 2016;
+-- Ревью: запрос 2
+SELECT * FROM book_shops
+WHERE price < 500
+ORDER BY price ASC
+LIMIT 3 OFFSET 3;
 
-SELECT * FROM books
-ORDER BY pages ASC
-OFFSET 3 LIMIT 3;
+-- Ревью: запрос 3 (не запускать повторно без нужды)
+UPDATE book_shops
+SET price = 399
+WHERE book_id = 2 AND shop_name = 'Литрес';
 
+-- Ревью: запрос 4
+SELECT * FROM authors
+WHERE birth_year IS NULL
+ORDER BY name ASC;
+
+-- Ревью: запрос 5
+SELECT title FROM books
+WHERE pages BETWEEN 200 AND 500;
+
+-- Экзамен: задача 4
 SELECT * FROM books
-WHERE level IS NULL;
+WHERE description ILIKE '%программ%';
+
+-- Экзамен: задача 7
+SELECT * FROM book_shops
+ORDER BY price ASC
+LIMIT 4 OFFSET 4;
