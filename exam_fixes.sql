@@ -1,32 +1,19 @@
--- Ревью: запрос 1
-SELECT * FROM books
-WHERE description ILIKE '%алгоритм%';
+-- Тема 2: UNIQUE, DEFAULT, CHECK
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    book_id INT NOT NULL,
+    user_email TEXT NOT NULL,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    created_at DATE DEFAULT CURRENT_DATE,
+    UNIQUE (book_id, user_email)
+);
 
--- Ревью: запрос 2
-SELECT * FROM book_shops
-WHERE price < 500
-ORDER BY price ASC
-LIMIT 3 OFFSET 3;
+-- Нормальный отзыв: дата подставится сама (DEFAULT)
+INSERT INTO reviews (book_id, user_email, rating)
+VALUES (1, 'test@gmail.com', 5);
 
--- Ревью: запрос 3 (не запускать повторно без нужды)
-UPDATE book_shops
-SET price = 399
-WHERE book_id = 2 AND shop_name = 'Литрес';
+-- Ошибка CHECK: оценка 7
+-- INSERT INTO reviews (book_id, user_email, rating) VALUES (2, 'test@gmail.com', 7);
 
--- Ревью: запрос 4
-SELECT * FROM authors
-WHERE birth_year IS NULL
-ORDER BY name ASC;
-
--- Ревью: запрос 5
-SELECT title FROM books
-WHERE pages BETWEEN 200 AND 500;
-
--- Экзамен: задача 4
-SELECT * FROM books
-WHERE description ILIKE '%программ%';
-
--- Экзамен: задача 7
-SELECT * FROM book_shops
-ORDER BY price ASC
-LIMIT 4 OFFSET 4;
+-- Ошибка UNIQUE: второй отзыв на ту же книгу с той же почтой
+-- INSERT INTO reviews (book_id, user_email, rating) VALUES (1, 'test@gmail.com', 4);
